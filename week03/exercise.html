@@ -1,0 +1,62 @@
+<script>
+    function convertNumberToString(num, x = 10){
+        let integer = Math.floor(num),
+            fraction = num - integer,
+            string = '';
+        while(integer > 0){
+            string = String(integer % x) + string;
+            integer = Math.floor(integer / x);
+        }
+
+        // while(fraction < 1){
+        //    小数部分不会写
+        // }
+        return string
+    }
+
+
+
+    function convertStringToNumber(str, x = 10){
+        let chars = str.toLocaleLowerCase().split('');
+        let number = 0;
+        let i = 0;
+        while (i < chars.length && chars[i] !=='.'&& chars[i] !=='e') {
+            //整数部分
+            number = number * x;
+            //16进制判断
+            number += chars[i].codePointAt(0) >= 'a'.codePointAt(0) ? 
+                        (chars[i].codePointAt(0) - 'a'.codePointAt(0) + 10) :
+                        (chars[i].codePointAt(0) - '0'.codePointAt(0));
+            console.log(chars[i],chars[i].codePointAt(0),number)
+            i++;
+        }
+        if (chars[i] ==='.') {
+            i++
+        }
+        let fraction = 1;
+        while (i < chars.length&& chars[i] !=='e') {
+            //小数部分
+            fraction = fraction / x;
+            number += (chars[i].codePointAt(0) >= 'a'.codePointAt(0) ? 
+                        (chars[i].codePointAt(0) - 'a'.codePointAt(0) + 10) :
+                        (chars[i].codePointAt(0) - '0'.codePointAt(0))) * fraction;
+            i++;
+        }
+        if (chars[i] ==='e') {
+            //带e指数
+            i++
+            let multiple = 0;
+            while (i < chars.length) {
+                multiple = multiple * x;
+                multiple += chars[i].codePointAt(0) - '0'.codePointAt(0);
+                i++;
+            }
+            number = number * 10**multiple;
+        }
+        return number
+    }
+
+
+
+
+</script>
