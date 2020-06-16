@@ -66,7 +66,10 @@
             if(check(x, y, pattern)) console.log((color === 2 ? 'O' : 'X')  + 'is win!');
             color = 3 - color;
             if(willWin(pattern, color)) console.log((color === 2 ? 'O' : 'X') + 'will win!');
-            show()
+            
+            // show()
+            
+            computedMove()
         }
 
         function check(x, y, pattern) {
@@ -127,6 +130,19 @@
                 
             }
             return null
+        }
+
+        function computedMove() {
+            let result = bestChoice(pattern, color);
+            if (!result.point){
+                show()
+                return
+            };
+            pattern[result.point[1]][result.point[0]] = color;
+            if(check(result.point[0], result.point[1], pattern)) console.log((color === 2 ? 'O' : 'X')  + 'is win!');
+            color = 3 - color;
+            if(willWin(pattern, color)) console.log((color === 2 ? 'O' : 'X') + 'will win!');
+            show()
         }
 
         function bestChoice(pattern, color) {
