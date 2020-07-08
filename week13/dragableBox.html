@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #dragable{
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            background-color: pink;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+        文字文字文字文字文字文字文字文字文字文字文字文字文字
+    </div>
+    
+    <div id="dragable"></div>
+
+
+    <script>
+        
+        let dragable = document.getElementById('dragable');
+        let baseX = 0, baseY = 0;
+        
+        dragable.addEventListener('mousedown', event => {
+            let move =  e=>{
+                //  event.target.style.transform = `translate(${baseX + e.clientX - event.clientX}px, ${baseY + e.clientY - event.clientY}px)`;
+                 
+                 let range = nearest( e.clientX,  e.clientY);
+                    range.insertNode(dragable)
+                };
+            let up =  e=>{
+                    baseX = baseX + e.clientX - event.clientX;
+                    baseY = baseY + e.clientY - event.clientY;
+                    document.removeEventListener('mousemove', move)
+                    document.removeEventListener('mouseup', up)
+                };
+              document.addEventListener('mousemove', move)
+              document.addEventListener('mouseup', up)
+        })
+
+        let ranges = [], text  = document.getElementById('content').childNodes[0] ; 
+        for (let i = 0; i < text.length; i++) {
+            let range = new Range();
+            range.setStart(text, i)
+            range.setEnd(text, i)
+            ranges.push(range)
+        }  
+        
+        function nearest(x0, y0) {
+            let min = Infinity, nearestRange;
+            for (const range of ranges) {
+                let {x, y} = range.getBoundingClientRect();
+                let distance = (x - x0)**2 + (y - y0)**2;
+                if (distance < min) {
+                    nearestRange = range;
+                    min = distance
+                }
+            }
+            return nearestRange
+        }
+        
+        document.addEventListener('selectstart', e=> e.preventDefault())
+    </script>
+</body>
+</html>
